@@ -55,7 +55,9 @@ shinyServer(function(input, output) {
     
     arrows(x0=crit1_h0, y0=-0.09, x1=5, y1=-0.09, col=cb["red"], length=0.1, lwd=2, xpd=NA, code=3)
     text(x=mean(c(crit1_h0, 5)), y=0, pos=1, offset=3, 
-         label=expression(paste("Reject ", H[0], " when it is true")), col=cb["red"], font=2, xpd=NA)
+         label=expression(paste("Reject ", H[0])), col=cb["red"], font=2, xpd=NA)
+    text(x=mean(c(crit1_h0, 5)), y=0, pos=1, offset=4, 
+         label="when it is true", col=cb["red"], font=1, xpd=NA)
     # Type I arrows
     arrows(x0=mean(c(crit1_h0, 5)), y0=max(y_h0)/2, x1=mean(c(crit1_h0, 5))-0.5, 
            y1=0.01, code=2, len=0.2, lwd=2, col=cb["red"])
