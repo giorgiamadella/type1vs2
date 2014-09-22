@@ -16,6 +16,7 @@ shinyServer(function(input, output) {
     par(mfrow=c(3,1), tck=-0.03, mar=c(5, 3.2, 4, 1), mgp=c(3, 0.5, 0), xaxs="i", yaxs="i", cex=1.2)
     x=seq(-5, 5, length=1000)
     mu0=0
+    muA=1.5
     sigma=1
     y_h0=dnorm(x, mean=mu0, sd=sigma)
     
@@ -27,7 +28,8 @@ shinyServer(function(input, output) {
     area1_h0=pnorm(q = crit2_h0, mean = mu0, sd = sigma, lower.tail=F)
     plot(x, y_h0, t="l", yaxt="n", ylab="", xlab="", xpd=NA, xaxt="n", bty="n",
          main = expression(paste(H[0], " is true:")))
-    axis(1, at=seq(-5, 5, 1), lab=c(seq(-5, -1), expression(tau[0]==0), seq(1, 5)))
+    axis(1, at=c(seq(-5, mu0), muA, seq(3, 5)),
+         lab=c(seq(-5, -1), expression(tau[0]==0), expression(tau==1.5), seq(3, 5)))
     x.type1=c(crit1_h0, seq(crit1_h0, 15, 0.01), 15)
     y.type1=c(0, dnorm(seq(crit1_h0, 15, 0.01), mean=mu0, sd = sigma), 0) 
     polygon(x.type1, y.type1, col=rgb(0.8, 0.4, 0, 0.5), border=NA)
@@ -68,7 +70,6 @@ shinyServer(function(input, output) {
     text(x=mean(c(crit2_h0, -5)), y=max(y_h0)/2, label=expression(paste("Type I error (", alpha/2, ")")), 
          font=1, col=cb["red"], pos=3, offset=0.5)
     # Ha
-    muA=1.5
     y_hA=dnorm(x, mean=muA, sd=sigma)
     crit2_hA=qnorm(p = alpha/2, mean = muA, sd = sigma)
     crit1_hA=qnorm(p = 1-alpha/2, mean = muA, sd = sigma)
@@ -77,8 +78,8 @@ shinyServer(function(input, output) {
     area1_hA=pnorm(q = crit2_hA, mean = muA, sd = sigma, lower.tail=F)
     plot(x, y_hA, t="l", yaxt="n", ylab="", xlab="", xpd=NA, xaxt="n", bty="n",
          main = expression(paste(H[a], " is true:")))
-    axis(1, at=c(seq(-5, mu0), muA, seq(2, 5)),
-         lab=c(seq(-5, -1), expression(tau[0]==0), expression(tau==1.5), seq(2, 5)))
+    axis(1, at=c(seq(-5, mu0), muA, seq(3, 5)),
+         lab=c(seq(-5, -1), expression(tau[0]==0), expression(tau==1.5), seq(3, 5)))
     
     #text(x=-3.5, y=max(y_hA), expression(paste(H[a], " is true:")), font=2, xpd=NA)    
     x.type1=c(crit1_h0, seq(crit1_h0, 15, 0.01), 15)
@@ -141,12 +142,14 @@ shinyServer(function(input, output) {
          font=1, col=cb["red"], 
          pos=3, offset=0.5)
     # Type II error
-    arrows(x0=mean(c(crit2_h0, crit1_h0)), y0=max(y_hA)/2, 
+    arrows(x0=mean(c(crit2_h0, crit1_h0)), y0=max(y_hA)/2-0.05, 
            x1=mean(c(crit2_h0, crit1_h0)), y1=0.01, code=2, len=0.2, lwd=2, 
            col=cb["blue"])
     text(x=mean(c(crit2_h0, crit1_h0)), y=max(y_hA)/2, 
-         label=substitute(paste("Type II error (", beta == bval, ")"), 
-                          list(bval=format(beta, digit=2))), font=2, col=cb["blue"], pos=3, offset=0.5)
+         label="Type II error", font=2, col=cb["blue"], pos=3, offset=0.5)
+    text(x=mean(c(crit2_h0, crit1_h0)), y=max(y_hA)/2, 
+         label=substitute(paste("(", beta == bval, ")"), 
+                          list(bval=format(beta, digit=2))), font=2, col=cb["blue"], pos=3, offset=-0.75)
     
     # Panel 3
     alphas <- seq(from=0.005, to=1, len=100)
