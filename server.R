@@ -51,9 +51,9 @@ shinyServer(function(input, output) {
     
     arrows(x0=crit2_h0, y0=-0.09, x1=crit1_h0, y1=-0.09, col="black", length=0.1, lwd=2, xpd=NA, code=3)
     text(x=mean(c(crit1_h0, crit2_h0)), y=0, pos=1, offset=3, 
-         label=expression(paste("Reject ", H[0])), col="black", xpd=NA)
+         label=expression(paste("Fail to reject ", H[0])), col="black", xpd=NA)
     text(x=mean(c(crit1_h0, crit2_h0)), y=0, pos=1, offset=4, 
-         label="when it is false", col="black", xpd=NA)
+         label="when it is true", col="black", xpd=NA)
     
     arrows(x0=crit1_h0, y0=-0.09, x1=5, y1=-0.09, col=cb["red"], length=0.1, lwd=2, xpd=NA, code=3)
     text(x=mean(c(crit1_h0, 5)), y=0, pos=1, offset=3, 
