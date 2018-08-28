@@ -1,5 +1,5 @@
 library(shiny)
-library(maps)
+source("plotconf.R")
 
 shinyServer(function(input, output) {
   params <- reactive({
@@ -11,9 +11,9 @@ shinyServer(function(input, output) {
     params <- params()
     alpha <- params$alpha
     
-    cb <- c("#000000",  "#999999",  "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
-    names(cb) <- c("black", "grey", "orange", "turquoise", "green", "yellow", "blue", "red", "pink")
-    par(mfrow=c(3,1), tck=-0.03, mar=c(5, 3.2, 4, 1), mgp=c(3, 0.5, 0), xaxs="i", yaxs="i", cex=1.2)
+    par(plotconf)
+    par(mfrow = c(3, 1))
+    par(mar = c(5, 4, 3, 1), cex=1.1, yaxs = "i")
     x=seq(-5, 5, length=1000)
     mu0=0
     muA=1.5
@@ -41,7 +41,7 @@ shinyServer(function(input, output) {
     abline(v=crit1_h0, lwd=2, lty=2, col=cb["red"])
     text(x=crit1_h0, y = max(y_h0), labels = expression(tau[C]), col=cb["red"], xpd=NA, pos=3, offset = 0.5)
     abline(v=crit2_h0, lwd=2, lty=2, col=cb["red"])
-    text(x=crit2_h0, y = max(y_h0), labels = expression(tau[C]), col=cb["red"], xpd=NA, pos=3, offset = 0.5)
+    text(x=crit2_h0, y = max(y_h0), labels = expression(-tau[C]), col=cb["red"], xpd=NA, pos=3, offset = 0.5)
     
     arrows(x0=-5, y0=-0.09, x1=crit2_h0, y1=-0.09, col=cb["red"], length=0.1, lwd=2, xpd=NA, code=3)
     text(x=mean(c(-5, crit2_h0)), y=0, pos=1, offset=3, 
@@ -104,7 +104,7 @@ shinyServer(function(input, output) {
     text(x=crit1_h0, y = max(y_hA), labels = expression(tau[C]), col=cb["red"], 
          xpd=NA, pos=3, offset = 0.5)
     abline(v=crit2_h0, lwd=2, lty=2, col=cb["red"])
-    text(x=crit2_h0, y = max(y_hA), labels = expression(tau[C]), col=cb["red"], 
+    text(x=crit2_h0, y = max(y_hA), labels = expression(-tau[C]), col=cb["red"], 
          xpd=NA, pos=3, offset = 0.5)
     arrows(x0=-5, y0=-0.09, x1=crit2_h0, y1=-0.09, col=cb["red"], length=0.1, 
            lwd=2, xpd=NA, code=3)
@@ -112,8 +112,7 @@ shinyServer(function(input, output) {
          label=expression(paste("Reject ", H[0])), col=cb["red"], xpd=NA)
     text(x=mean(c(-5, crit2_h0)), y=0, pos=1, offset=4, 
          label="when it is false", col=cb["red"], xpd=NA)
-    
-    
+        
     arrows(x0=crit2_h0, y0=-0.09, x1=crit1_h0, y1=-0.09, col="black", length=0.1, 
            lwd=2, xpd=NA, code=3)
     text(x=mean(c(crit1_h0, crit2_h0)), y=0, pos=1, offset=3, 
@@ -168,7 +167,7 @@ shinyServer(function(input, output) {
     mtext(1, line = 2, text=expression(paste("Type I error (", alpha, ")")), 
           col=cb["red"], cex=scaling, xpd=NA)
     mtext(2, line = 2, text=expression(paste("Type II error (", beta, ")")), 
-          col=cb["blue"], cex=scaling, xpd=NA)
+          col=cb["blue"], cex=scaling, xpd=NA, las = 0)
     #abline(v=0.05, lty=2, lwd=2, col=cb["red"])
     #text(x=0.05, y=1, pos=3, offset=0.5, labels = expression(alpha==0.05), col=cb["red"], xpd=NA)
     abline(v=alpha, lwd=2, col=cb["red"], lty=2)
